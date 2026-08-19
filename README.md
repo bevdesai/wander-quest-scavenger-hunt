@@ -26,7 +26,7 @@
 * **State & Persistence:** React Context API + `localStorage`
 
 ---
-
+## Project Charter https://github.com/bevdesai/wander-quest-scavenger-hunt/blob/main/project_charter.md
 ## 🚀 Quick Start Guide
 
 ### Prerequisites
