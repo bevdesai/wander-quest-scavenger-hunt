@@ -72,4 +72,4 @@ Open `http://localhost:5173` in your browser.
 
 ## 📜 License
 
-This project was by Bhairavi Desai.
+This project was by Bhairavi Desai. Video : https://youtu.be/KAqC7vlF80o
