@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Compass, MapPin, Clock, Sparkles, Loader2, Globe2, MapPinned, AlertCircle } from 'lucide-react';
+import { Compass, MapPin, Clock, Sparkles, Loader2, Globe2, MapPinned, AlertCircle, Building2 } from 'lucide-react';
 import type { Language, Theme, DurationMinutes } from '@/types/hunt';
 import { LANGUAGES, DURATIONS, THEMES } from '@/types/hunt';
 import { useApp } from '@/context/AppContext';
 import type { TranslationKey } from '@/lib/i18n';
+import { getDemoCityLabels } from '@/lib/mockData';
 
 interface SetupScreenProps {
   onGenerate: (params: {
@@ -19,7 +20,9 @@ interface SetupScreenProps {
 
 export function SetupScreen({ onGenerate, isGenerating, errorMessage }: SetupScreenProps) {
   const { t, language, setLanguage, demoMode } = useApp();
+  const demoCities = getDemoCityLabels();
   const [city, setCity] = useState('');
+  const [demoCity, setDemoCity] = useState(demoCities[0]?.key ?? 'Prague');
   const [region, setRegion] = useState('');
   const [duration, setDuration] = useState<DurationMinutes>(60);
   const [theme, setTheme] = useState<Theme>('Historical');
@@ -30,7 +33,7 @@ export function SetupScreen({ onGenerate, isGenerating, errorMessage }: SetupScr
     event.preventDefault();
     if (!canSubmit) return;
     onGenerate({
-      city: city.trim() || (demoMode ? 'Demo City' : ''),
+      city: demoMode ? demoCity : city.trim(),
       region: region.trim() || undefined,
       language,
       durationMinutes: duration,
@@ -79,35 +82,68 @@ export function SetupScreen({ onGenerate, isGenerating, errorMessage }: SetupScr
         onSubmit={handleSubmit}
         className="flex-1 px-5 sm:px-8 py-6 max-w-xl w-full mx-auto flex flex-col gap-5"
       >
-        <div>
-          <label className="flex items-center gap-2 text-sm font-semibold text-stone-700 mb-2">
-            <MapPin className="w-4 h-4 text-teal-600" />
-            {t('whereExploring')}
-          </label>
-          <input
-            type="text"
-            value={city}
-            onChange={(event) => setCity(event.target.value)}
-            placeholder={t('cityPlaceholder')}
-            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3.5 text-base text-stone-900 placeholder:text-stone-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
-            maxLength={80}
-          />
-        </div>
+        {demoMode ? (
+          <div>
+            <label className="flex items-center gap-2 text-sm font-semibold text-stone-700 mb-2">
+              <Building2 className="w-4 h-4 text-amber-600" />
+              {t('demoCityLabel')}
+            </label>
+            <div className="grid grid-cols-1 gap-2">
+              {demoCities.map((option) => (
+                <button
+                  key={option.key}
+                  type="button"
+                  onClick={() => setDemoCity(option.key)}
+                  className={`text-left rounded-xl px-4 py-3 border transition ${
+                    demoCity === option.key
+                      ? 'bg-amber-50 border-amber-400 ring-1 ring-amber-400'
+                      : 'bg-white border-stone-200 hover:border-amber-300'
+                  }`}
+                >
+                  <span
+                    className={`block font-semibold text-sm ${
+                      demoCity === option.key ? 'text-amber-700' : 'text-stone-700'
+                    }`}
+                  >
+                    {option.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div>
+            <label className="flex items-center gap-2 text-sm font-semibold text-stone-700 mb-2">
+              <MapPin className="w-4 h-4 text-teal-600" />
+              {t('whereExploring')}
+            </label>
+            <input
+              type="text"
+              value={city}
+              onChange={(event) => setCity(event.target.value)}
+              placeholder={t('cityPlaceholder')}
+              className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3.5 text-base text-stone-900 placeholder:text-stone-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
+              maxLength={80}
+            />
+          </div>
+        )}
 
-        <div>
-          <label className="flex items-center gap-2 text-sm font-semibold text-stone-700 mb-2">
-            <MapPinned className="w-4 h-4 text-teal-600" />
-            {t('regionLabel')}
-          </label>
-          <input
-            type="text"
-            value={region}
-            onChange={(event) => setRegion(event.target.value)}
-            placeholder={t('regionPlaceholder')}
-            className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
-            maxLength={80}
-          />
-        </div>
+        {!demoMode && (
+          <div>
+            <label className="flex items-center gap-2 text-sm font-semibold text-stone-700 mb-2">
+              <MapPinned className="w-4 h-4 text-teal-600" />
+              {t('regionLabel')}
+            </label>
+            <input
+              type="text"
+              value={region}
+              onChange={(event) => setRegion(event.target.value)}
+              placeholder={t('regionPlaceholder')}
+              className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
+              maxLength={80}
+            />
+          </div>
+        )}
 
         <div>
           <label className="flex items-center gap-2 text-sm font-semibold text-stone-700 mb-2">

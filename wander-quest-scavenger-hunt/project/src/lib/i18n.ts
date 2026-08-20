@@ -71,7 +71,8 @@ export type TranslationKey =
   | 'missingFeatures'
   | 'attempt'
   | 'attemptsLeft'
-  | 'unlimitedRetries';
+  | 'unlimitedRetries'
+  | 'demoCityLabel';
 
 type TranslationDictionary = Record<TranslationKey, string>;
 
@@ -148,6 +149,7 @@ const translations: Record<Language, TranslationDictionary> = {
     attempt: 'Attempt',
     attemptsLeft: 'Unlimited retries',
     unlimitedRetries: 'Unlimited retries — keep trying!',
+    demoCityLabel: 'Choose a demo city',
   },
   Spanish: {
     appName: 'Wander Quest',
@@ -221,6 +223,7 @@ const translations: Record<Language, TranslationDictionary> = {
     attempt: 'Intento',
     attemptsLeft: 'Reintentos ilimitados',
     unlimitedRetries: '¡Reintentos ilimitados — sigue intentando!',
+    demoCityLabel: 'Elige una ciudad demo',
   },
   French: {
     appName: 'Wander Quest',
@@ -294,6 +297,7 @@ const translations: Record<Language, TranslationDictionary> = {
     attempt: 'Tentative',
     attemptsLeft: 'Tentatives illimitées',
     unlimitedRetries: 'Tentatives illimitées — continuez !',
+    demoCityLabel: 'Choisissez une ville démo',
   },
   Japanese: {
     appName: 'Wander Quest',
@@ -367,6 +371,7 @@ const translations: Record<Language, TranslationDictionary> = {
     attempt: '試行',
     attemptsLeft: '無制限再試行',
     unlimitedRetries: '無制限再試行 — 続けて！',
+    demoCityLabel: 'デモ都市を選択',
   },
   German: {
     appName: 'Wander Quest',
@@ -440,6 +445,7 @@ const translations: Record<Language, TranslationDictionary> = {
     attempt: 'Versuch',
     attemptsLeft: 'Unbegrenzte Versuche',
     unlimitedRetries: 'Unbegrenzte Versuche — weiter versuchen!',
+    demoCityLabel: 'Demo-Stadt wählen',
   },
 };
 
